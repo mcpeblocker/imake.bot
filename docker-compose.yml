@@ -1,0 +1,15 @@
+
+services:
+  database:
+    image: mongo
+    restart: always
+    expose:
+      - 27017
+    ports:
+      - 27017:27017
+    volumes:
+      - ./data:/data
+    # environment:
+    #   - MONGODB_INITDB_ROOT_USERNAME=admin
+    #   - MONGODB_INITDB_ROOT_PASSWORD=12345
+    #   - MONGODB_INITDB_DATABASE=imakebot

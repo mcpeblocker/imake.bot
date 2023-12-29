@@ -1,0 +1,11 @@
+# A black hole
+/node_modules
+
+# build
+/dist
+
+# mongodb data
+/data
+
+# environment variables
+*.env

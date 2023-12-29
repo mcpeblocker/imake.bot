@@ -1,0 +1,27 @@
+{
+  "name": "imake.bot",
+  "version": "1.0.0",
+  "description": "A toolkit to conveniently develop and launch chat bots with essential features in ease.",
+  "main": "dist/main.js",
+  "repository": "https://github.com/mcpeblocker/imake.bot",
+  "author": "Alisher Ortiqov <mcpeblocker@gmail.com>",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "start": "node .",
+    "dev": "nodemon src/main.ts",
+    "build": "tsc"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.5",
+    "nodemon": "^3.0.2",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.3.3"
+  },
+  "dependencies": {
+    "dotenv": "^16.3.1",
+    "env-var": "^7.4.1",
+    "mongoose": "^8.0.3",
+    "tslog": "^4.9.2"
+  }
+}
