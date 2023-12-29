@@ -1,14 +1,12 @@
+import { config } from "./common/config";
 import { logger } from "./common/logger";
-import { connectToDatabase } from "./database";
-import { ChatBot } from "./database/models/ChatBot.model";
-import { User } from "./database/models/User.model";
+import { connectToDatabase } from "./core/database";
+import { server } from "./core/server";
+import { initializeModules } from "./modules";
 
 connectToDatabase();
+initializeModules();
 
-async function mainModule() {
-  const bots = await ChatBot.find();
-  const users = await User.find();
-  logger.info(bots, users);
-}
-
-mainModule();
+server.listen(config.port, () => {
+  logger.info("Server is listening on port " + config.port);
+});

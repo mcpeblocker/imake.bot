@@ -1,13 +1,5 @@
-import { Schema, Types, model } from "mongoose";
-
-interface IChatBot {
-  name: string;
-  tg_token: string;
-  tg_name: string;
-  tg_description: string;
-  tg_about: string;
-  owner: Types.ObjectId;
-}
+import { Schema, model } from "mongoose";
+import { IChatBot } from "./interfaces";
 
 const chatBotSchema = new Schema<IChatBot>({
   name: {
