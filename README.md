@@ -18,3 +18,12 @@ With imake.bot, the process of creating and customizing chatbots becomes a breez
     - Long polling
     - Webhook
   - Defining trigger by connecting methods and updates.
+
+# Vision
+
+  - **Intuitive Bot Builder:** Easily create and customize chat bots using a drag-and-drop interface.
+  - **Natural Language Processing:** Leverage advanced AI algorithms to understand and respond to user queries.
+  - **Integration Capabilities:** Seamlessly connect the chat bot platform with existing systems and databases.
+  - **Analytics and Reporting:** Gain valuable insights into bot performance and customer interactions.
+  - **Multi-Channel Support:** Deploy chat bots across various channels, including websites, messaging apps, and social media platforms.
+  - **Security and Compliance:** Ensure data privacy and adhere to industry regulations.
