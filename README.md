@@ -26,4 +26,5 @@ With imake.bot, the process of creating and customizing chatbots becomes a breez
   - **Integration Capabilities:** Seamlessly connect the chat bot platform with existing systems and databases.
   - **Analytics and Reporting:** Gain valuable insights into bot performance and customer interactions.
   - **Multi-Channel Support:** Deploy chat bots across various channels, including websites, messaging apps, and social media platforms.
+    - Originated from basic telegram chat bot.
   - **Security and Compliance:** Ensure data privacy and adhere to industry regulations.
