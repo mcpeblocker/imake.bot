@@ -1,13 +1,14 @@
 import { Router, json, urlencoded, Request, Response } from "express";
-import { ChatBot } from "./model";
+import { ChatBotEntity } from "./entity";
 import { IChatBot } from "./interfaces";
+import { chatBotService } from "../../services/chatbot.service";
 
 const router = Router();
 
 router.get("/", async (req, res) => {
   const user: string = req.query.user as string;
-  // Get ChatBots owned by user
-  const chatbots = await ChatBot.find({
+  // Get ChatBotEntities owned by user
+  const chatbots = await ChatBotEntity.find({
     owner: user,
   });
   res.status(200).json({
@@ -22,31 +23,27 @@ router.post(
   urlencoded({ extended: false }),
   async (req: Request, res: Response) => {
     const user: string = req.query.user as string;
-    // Create ChatBot
-    const { name, tg_name, tg_about, tg_description, tg_token, tg_username } =
-      req.body as Omit<IChatBot, "owner">;
-    const chatbot = new ChatBot({
+    // Create ChatBotEntity
+    const { name, tg_token } = req.body as Pick<IChatBot, "name" | "tg_token">;
+    const chatbotModel = await chatBotService.getChatBot(tg_token);
+    const chatbotEntity = new ChatBotEntity({
       name,
-      tg_name,
-      tg_about,
-      tg_description,
-      tg_token,
-      tg_username,
       owner: user,
+      ...chatbotModel.botInfo,
     });
-    await chatbot.save();
+    await chatbotEntity.save();
     res.status(201).json({
       code: 200,
-      data: chatbot,
+      data: chatbotEntity,
     });
   }
 );
 
 router.get("/:id", async (req, res) => {
   const user: string = req.query.user as string;
-  // Get ChatBot by ID owned by user
+  // Get ChatBotEntity by ID owned by user
   const id: string = req.params.id;
-  const chatbot = await ChatBot.findOne({
+  const chatbot = await ChatBotEntity.findOne({
     _id: id,
     owner: user,
   });
@@ -59,9 +56,9 @@ router.get("/:id", async (req, res) => {
 
 router.delete("/:id", async (req, res) => {
   const user: string = req.query.user as string;
-  // Delete ChatBot by ID owned by user
+  // Delete ChatBotEntity by ID owned by user
   const id: string = req.params.id;
-  const chatbot = await ChatBot.findOneAndDelete({
+  const chatbot = await ChatBotEntity.findOneAndDelete({
     _id: id,
     owner: user,
   });
