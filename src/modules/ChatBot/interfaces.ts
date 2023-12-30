@@ -6,5 +6,6 @@ export interface IChatBot {
   tg_name: string;
   tg_description: string;
   tg_about: string;
+  tg_username: string;
   owner: Types.ObjectId;
 }

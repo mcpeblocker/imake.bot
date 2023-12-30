@@ -22,6 +22,10 @@ const chatBotSchema = new Schema<IChatBot>({
     type: String,
     required: true,
   },
+  tg_username: {
+    type: String,
+    required: true,
+  },
   owner: {
     type: Schema.Types.ObjectId,
     ref: "User",
