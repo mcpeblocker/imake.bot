@@ -1,5 +1,6 @@
 import { Router, json, urlencoded } from "express";
 import { ActionEntity } from "./entity";
+import { ProcedureEntity } from "../Procedure/entity";
 
 const router = Router();
 
@@ -12,12 +13,18 @@ router.get("/", async (req, res) => {
 });
 
 router.post("/", json(), urlencoded({ extended: false }), async (req, res) => {
-  const { method, params } = req.body;
+  const { method, params, procedure: procedureId } = req.body;
   const action = new ActionEntity({
     method,
     params,
+    procedureId,
   });
   await action.save();
+  await ProcedureEntity.findByIdAndUpdate(procedureId, {
+    $push: {
+      steps: action._id,
+    },
+  });
   res.status(201).json({
     code: 200,
     data: action,

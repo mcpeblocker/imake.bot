@@ -1,4 +1,4 @@
-import { Schema, model } from "mongoose";
+import { Schema, Types, model } from "mongoose";
 import { IAction } from "./interface";
 
 const actionSchema = new Schema<IAction>({
@@ -9,6 +9,10 @@ const actionSchema = new Schema<IAction>({
   params: {
     type: Object,
     default: {},
+  },
+  procedure: {
+    type: Types.ObjectId,
+    ref: "Procedure",
   },
 });
 

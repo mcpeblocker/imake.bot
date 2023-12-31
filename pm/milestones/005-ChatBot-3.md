@@ -6,14 +6,14 @@
 
 ## Technical requirements
 
-- Have a trigger defined and stored as entity
-- Develop CRUD resources for entity **Trigger**
-- Have a procedure defined and stored as entity
-- Develop CRUD resources for entity **Procedure**
-- Have a node defined and stored as entity (step of the *procedure*)
-- Develop CRUD resources for entity **Node**
-- Make relevant connections between *node* & *procedure* & *triggers*
-- Use **linked list** data structure to establish sequence in procedure
+- Have a trigger defined and stored as entity ✔
+- Develop CRUD resources for entity **Trigger** ✔
+- Have a procedure defined and stored as entity ✔
+- Develop CRUD resources for entity **Procedure** ✔
+- Have an action defined and stored as entity (step of the *procedure*) ✔
+- Develop CRUD resources for entity **Action** ✔
+- Make relevant connections between *action* & *procedure* & *triggers* ✔
+- Use **array** data structure to establish sequence in procedure ✔
 - Listen to telegram bot updates through grammY according to registered *triggers*
 
 ## Notes
