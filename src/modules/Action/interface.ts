@@ -3,7 +3,8 @@ import { IProcedure } from "../Procedure/interface";
 
 type ApiMethod = keyof ApiMethods;
 
-type ApiParams = Parameters<ApiMethods[ApiMethod]>[any];
+// type ApiParams = Parameters<ApiMethods[ApiMethod]>[any];
+type ApiParams = Record<string, any>;
 
 export interface IAction {
   method: ApiMethod;
