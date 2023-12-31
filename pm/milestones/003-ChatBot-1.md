@@ -6,9 +6,9 @@
 
 ## Technical requirements
 
-- Develop basic CRUD resources for ChatBot module
-- Complete the documentation and testing using postman for the written code
-- Implement relation with pre-generated User instances
+- Develop basic CRUD resources for ChatBot module ✔
+- Complete the documentation and testing using postman for the written code ✔
+- Implement relation with pre-generated User instances ✔
 
 ## Notes
 
