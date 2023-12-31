@@ -14,7 +14,7 @@
 - Develop CRUD resources for entity **Action** ✔
 - Make relevant connections between *action* & *procedure* & *triggers* ✔
 - Use **array** data structure to establish sequence in procedure ✔
-- Listen to telegram bot updates through grammY according to registered *triggers*
+- Listen to telegram bot updates through grammY according to registered *triggers* ✔
 
 ## Notes
 
