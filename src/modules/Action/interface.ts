@@ -1,13 +1,25 @@
-import { ApiMethods } from "grammy/types";
 import { IChatBot } from "../ChatBot/interfaces";
 
-type ApiMethod = keyof ApiMethods;
+type ApiMethodSendMessage = "sendMessage";
+type ApiParamsSendMessage = {
+  chat_id: string | number;
+  text: string;
+};
 
-// type ApiParams = Parameters<ApiMethods[ApiMethod]>[any];
-type ApiParams = Record<string, any>;
+type ApiMethodSetMyName = "setMyName";
+type ApiParamsSetMyName = {
+  name: string;
+};
 
-export interface IAction {
-  method: ApiMethod;
-  params: ApiParams;
+export type IAction = {
   chatbot: IChatBot;
-}
+} & (
+  | {
+      method: ApiMethodSendMessage;
+      params: ApiParamsSendMessage;
+    }
+  | {
+      method: ApiMethodSetMyName;
+      params: ApiParamsSetMyName;
+    }
+);

@@ -1,6 +1,9 @@
 import { Api, Bot } from "grammy";
 import { ITgBotInfo } from "../modules/ChatBot/interfaces";
-import { ETriggerType, ITrigger } from "../modules/Trigger/interface";
+import { ETriggerType } from "../modules/Trigger/interface";
+import { TriggerEntity } from "../modules/Trigger/entity";
+import { PipelineStage } from "mongoose";
+import { IAction } from "../modules/Action/interface";
 
 export class ChatBotModel {
   private readonly token: string;
@@ -29,36 +32,89 @@ export class ChatBotModel {
     };
   }
 
-  public async registerTrigger(trigger: ITrigger) {
-    const {
-      procedure: { steps },
-    } = trigger;
-    switch (trigger.type) {
-      case ETriggerType.COMMAND:
-        this.bot.command(trigger.pattern, (ctx) => {
-          ctx.reply(`Hi I detected a command!`);
-          for (let step of steps) {
-            switch (step.method) {
-              case "sendMessage":
-                ctx.api.sendMessage(step.params!.chat_id, step.params!.text);
-                break;
-            }
-          }
-        });
+  private async executeAction(action: IAction) {
+    switch (action.method) {
+      case "sendMessage":
+        await this.bot.api.sendMessage(
+          action.params.chat_id,
+          action.params.text
+        );
         break;
-      case ETriggerType.TEXT:
-        this.bot.hears(trigger.pattern, (ctx) => {
-          ctx.reply(`Hi I detected a text!`);
-          for (let step of steps) {
-            switch (step.method) {
-              case "sendMessage":
-                ctx.api.sendMessage(step.params!.chat_id, step.params!.text);
-                break;
-            }
-          }
-        });
+      case "setMyName":
+        await this.bot.api.setMyName(action.params.name);
         break;
     }
+  }
+
+  private async registerMiddlewares() {
+    this.bot.on("::bot_command", async (ctx) => {
+      const commands = ctx
+        .entities("bot_command")
+        .map((entity) => entity.text.slice(1));
+      const aggregation: PipelineStage[] = [
+        {
+          $match: {
+            $or: commands.map((command) => ({
+              type: ETriggerType.COMMAND,
+              pattern: command,
+            })),
+          },
+        },
+        {
+          $lookup: {
+            from: "chat_bots",
+            localField: "chatbot",
+            foreignField: "_id",
+            as: "chatbot",
+          },
+        },
+        {
+          $unwind: {
+            path: "$chatbot",
+          },
+        },
+        {
+          $match: {
+            "chatbot.tg_token": this.token,
+          },
+        },
+        {
+          $lookup: {
+            from: "procedures",
+            localField: "procedure",
+            foreignField: "_id",
+            as: "procedure",
+          },
+        },
+        {
+          $unwind: {
+            path: "$procedure",
+          },
+        },
+        {
+          $lookup: {
+            from: "actions",
+            localField: "procedure.steps",
+            foreignField: "_id",
+            as: "procedure.steps",
+          },
+        },
+      ];
+      const triggers = await TriggerEntity.aggregate(aggregation);
+      for (let trigger of triggers) {
+        for (let step of trigger.procedure.steps) {
+          await this.executeAction(step);
+        }
+      }
+    });
+  }
+
+  public launch() {
+    this.registerMiddlewares();
     this.bot.start();
+  }
+
+  public terminate() {
+    this.bot.stop();
   }
 }

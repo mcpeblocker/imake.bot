@@ -40,6 +40,14 @@ chatBotSchema.pre("save", async function (next) {
   next();
 });
 
+chatBotSchema.post("save", async function (res, next) {
+  await chatBotService.launchChatBot(res.tg_token);
+});
+
+chatBotSchema.post("findOneAndDelete", async function (res, next) {
+  await chatBotService.terminateChatBot(res.tg_token);
+});
+
 export const ChatBotEntity = model<IChatBot>(
   "ChatBot",
   chatBotSchema,
