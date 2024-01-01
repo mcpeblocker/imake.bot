@@ -39,3 +39,4 @@ With imake.bot, the process of creating and customizing chatbots becomes a breez
 - [003-ChatBot-1](/pm/milestones//003-ChatBot-1.md)
 - [004-ChatBot-2](/pm/milestones//004-ChatBot-2.md)
 - [005-ChatBot-3](/pm/milestones//005-ChatBot-3.md)
+- [006-ChatBot-4](/pm/milestones//006-ChatBot-4.md)
