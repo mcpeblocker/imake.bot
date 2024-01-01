@@ -1,5 +1,6 @@
 import { Schema, model } from "mongoose";
 import { IChatBot } from "./interfaces";
+import { chatBotService } from "../../services/chatbot.service";
 
 const chatBotSchema = new Schema<IChatBot>({
   name: {
@@ -12,7 +13,7 @@ const chatBotSchema = new Schema<IChatBot>({
   },
   tg_name: {
     type: String,
-    required: true,
+    // required: true,
   },
   tg_description: {
     type: String,
@@ -22,7 +23,7 @@ const chatBotSchema = new Schema<IChatBot>({
   },
   tg_username: {
     type: String,
-    required: true,
+    // required: true,
   },
   owner: {
     type: Schema.Types.ObjectId,
@@ -30,4 +31,17 @@ const chatBotSchema = new Schema<IChatBot>({
   },
 });
 
-export const ChatBotEntity = model<IChatBot>("ChatBot", chatBotSchema, "chat_bots");
+chatBotSchema.pre("save", async function (next) {
+  const chatbotModel = await chatBotService.getChatBot(this.tg_token);
+  this.tg_about = chatbotModel.botInfo.tg_about;
+  this.tg_description = chatbotModel.botInfo.tg_description;
+  this.tg_name = chatbotModel.botInfo.tg_name;
+  this.tg_username = chatbotModel.botInfo.tg_username;
+  next();
+});
+
+export const ChatBotEntity = model<IChatBot>(
+  "ChatBot",
+  chatBotSchema,
+  "chat_bots"
+);

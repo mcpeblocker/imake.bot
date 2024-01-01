@@ -25,11 +25,10 @@ router.post(
     const user: string = req.query.user as string;
     // Create ChatBotEntity
     const { name, tg_token } = req.body as Pick<IChatBot, "name" | "tg_token">;
-    const chatbotModel = await chatBotService.getChatBot(tg_token);
     const chatbotEntity = new ChatBotEntity({
       name,
       owner: user,
-      ...chatbotModel.botInfo,
+      tg_token,
     });
     await chatbotEntity.save();
     res.status(201).json({

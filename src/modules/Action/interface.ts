@@ -1,5 +1,5 @@
 import { ApiMethods } from "grammy/types";
-import { IProcedure } from "../Procedure/interface";
+import { IChatBot } from "../ChatBot/interfaces";
 
 type ApiMethod = keyof ApiMethods;
 
@@ -9,5 +9,5 @@ type ApiParams = Record<string, any>;
 export interface IAction {
   method: ApiMethod;
   params: ApiParams;
-  procedure: IProcedure;
+  chatbot: IChatBot;
 }

@@ -1,10 +1,5 @@
 import { Router, json, urlencoded } from "express";
 import { TriggerEntity } from "./entity";
-import { ChatBotEntity } from "../ChatBot/entity";
-import { ProcedureEntity } from "../Procedure/entity";
-import { chatBotService } from "../../services/chatbot.service";
-import { ActionEntity } from "../Action/entity";
-import { IAction } from "../Action/interface";
 
 const router = Router();
 
@@ -17,40 +12,14 @@ router.get("/", async (req, res) => {
 });
 
 router.post("/", json(), urlencoded({ extended: false }), async (req, res) => {
-  const { type, pattern, procedure: procedureId } = req.body;
-  const procedure = await ProcedureEntity.findById(procedureId);
-  const chatbotEntity = await ChatBotEntity.findById(procedure?.chatbot);
-  if (!procedure || !chatbotEntity) {
-    res.status(400).json({
-      code: 400,
-      data: null,
-    });
-    return;
-  }
-  const chatbotModel = await chatBotService.getChatBot(chatbotEntity.tg_token);
+  const { type, pattern, procedure, chatbot } = req.body;
   const trigger = new TriggerEntity({
     type,
     pattern,
-    procedure: procedureId,
+    procedure,
+    chatbot
   });
   await trigger.save();
-  let steps: IAction[] = [];
-  for (let step of procedure.steps) {
-    const action = await ActionEntity.findById(step);
-    steps.push({
-      method: action!.method,
-      params: action!.params,
-      procedure: procedure,
-    });
-  }
-  chatbotModel.registerTrigger({
-    type: trigger.type,
-    pattern: trigger.pattern,
-    procedure: {
-      chatbot: chatbotEntity,
-      steps: steps,
-    },
-  });
   res.status(201).json({
     code: 200,
     data: trigger,

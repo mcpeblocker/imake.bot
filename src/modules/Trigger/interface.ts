@@ -1,3 +1,4 @@
+import { IChatBot } from "../ChatBot/interfaces";
 import { IProcedure } from "../Procedure/interface";
 
 export enum ETriggerType {
@@ -11,4 +12,5 @@ export interface ITrigger {
   type: ETriggerType;
   pattern: TPattern;
   procedure: IProcedure;
+  chatbot: IChatBot;
 }

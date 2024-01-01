@@ -13,18 +13,13 @@ router.get("/", async (req, res) => {
 });
 
 router.post("/", json(), urlencoded({ extended: false }), async (req, res) => {
-  const { method, params, procedure: procedureId } = req.body;
+  const { method, params, chatbot } = req.body;
   const action = new ActionEntity({
     method,
     params,
-    procedureId,
+    chatbot,
   });
   await action.save();
-  await ProcedureEntity.findByIdAndUpdate(procedureId, {
-    $push: {
-      steps: action._id,
-    },
-  });
   res.status(201).json({
     code: 200,
     data: action,

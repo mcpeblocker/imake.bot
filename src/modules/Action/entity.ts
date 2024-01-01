@@ -10,9 +10,10 @@ const actionSchema = new Schema<IAction>({
     type: Object,
     default: {},
   },
-  procedure: {
+  chatbot: {
     type: Types.ObjectId,
-    ref: "Procedure",
+    ref: "ChatBot",
+    required: true,
   },
 });
 

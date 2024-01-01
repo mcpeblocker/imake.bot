@@ -16,6 +16,11 @@ const triggerSchema = new Schema<ITrigger>({
     ref: "Procedure",
     required: true,
   },
+  chatbot: {
+    type: Types.ObjectId,
+    ref: "ChatBot",
+    required: true,
+  },
 });
 
 export const TriggerEntity = model<ITrigger>(
