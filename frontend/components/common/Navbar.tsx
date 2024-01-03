@@ -19,10 +19,10 @@ export function Navbar() {
       />
       {/* Menus sticked to the right-side */}
       <Stack direction="row" justifyContent="space-around" gap={2}>
-        <Link href="/" component={NextLink}>
+        <Link href="/" component={NextLink} underline="none">
           Home
         </Link>
-        <Link href="/dashboard" component={NextLink}>
+        <Link href="/dashboard" component={NextLink} underline="none">
           <Button variant="solid">Go to dashboard</Button>
         </Link>
         {/* <ul className=""></ul> */}

@@ -30,7 +30,7 @@ export function ChatBots() {
           <ListItemButton>
             <Stack direction="row" justifyContent="space-between" width="100%">
               <ListItemContent>{chatbot.name}</ListItemContent>
-              <Link href={`/chatbot/${chatbot._id}`} component={NextLink}>
+              <Link href={`/dashboard/chatbot/${chatbot._id}`} component={NextLink} underline="none">
                 <Typography>Manage →</Typography>
               </Link>
             </Stack>
