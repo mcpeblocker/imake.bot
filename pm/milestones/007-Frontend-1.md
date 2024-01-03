@@ -10,7 +10,7 @@
 - Define components for 
   - chatbot ✔
   - triggers ✔
-  - procedures
-  - actions
+  - procedures ✔
+  - actions ✔
 - Access the backend api by making requests
 - Connect the frontend components to backend routes
