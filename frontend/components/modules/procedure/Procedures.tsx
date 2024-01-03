@@ -1,5 +1,6 @@
-import { Grid, Stack, Typography } from "@mui/joy";
+import { Button, Grid, Link, Stack, Typography } from "@mui/joy";
 import { Procedure } from "./Procedure";
+import NextLink from "next/link";
 
 interface ProcedureProps {
   chatbotId: string;
@@ -23,7 +24,16 @@ export function Procedures(props: ProcedureProps) {
 
   return (
     <Stack direction="column">
-      <Typography typography="h4">Procedures</Typography>
+      <Stack direction="row" justifyContent="space-between">
+        <Typography typography="h4">Procedures</Typography>
+        <Link
+          component={NextLink}
+          href={`/dashboard/chatbot/${props.chatbotId}/procedure/new`}
+          underline="none"
+        >
+          <Button>+ Add procedure</Button>
+        </Link>
+      </Stack>
       <Grid container spacing={2} mt={2}>
         {procedures.map((procedure, index) => (
           <Grid xs={4} key={index}>

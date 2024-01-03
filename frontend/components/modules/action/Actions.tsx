@@ -1,5 +1,6 @@
-import { Grid, Stack, Typography } from "@mui/joy";
+import { Button, Grid, Link, Stack, Typography } from "@mui/joy";
 import { Action } from "./Action";
+import NextLink from "next/link";
 
 interface ActionsProps {
   chatbotId: string;
@@ -29,7 +30,16 @@ export function Actions(props: ActionsProps) {
 
   return (
     <Stack direction="column">
-      <Typography typography="h4">Actions</Typography>
+      <Stack direction="row" justifyContent="space-between">
+        <Typography typography="h4">Actions</Typography>
+        <Link
+          component={NextLink}
+          href={`/dashboard/chatbot/${props.chatbotId}/action/new`}
+          underline="none"
+        >
+          <Button>+ Add action</Button>
+        </Link>
+      </Stack>
       <Grid container spacing={2} mt={2}>
         {actions.map((action, index) => (
           <Grid xs={4} key={index}>

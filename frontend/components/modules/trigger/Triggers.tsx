@@ -1,5 +1,6 @@
-import { Grid, Stack, Typography } from "@mui/joy";
+import { Button, Grid, Link, Stack, Typography } from "@mui/joy";
 import { Trigger } from "./Trigger";
+import NextLink from "next/link";
 
 interface TriggersProps {
   chatbotId: string;
@@ -39,7 +40,16 @@ export function Triggers(props: TriggersProps) {
 
   return (
     <Stack direction="column">
-      <Typography typography="h4">Triggers</Typography>
+      <Stack direction="row" justifyContent="space-between">
+        <Typography typography="h4">Triggers</Typography>
+        <Link
+          component={NextLink}
+          href={`/dashboard/chatbot/${props.chatbotId}/trigger/new`}
+          underline="none"
+        >
+          <Button>+ Add trigger</Button>
+        </Link>
+      </Stack>
       <Grid container spacing={2} mt={2}>
         {triggers.map((trigger, index) => (
           <Grid xs={4} key={index}>
