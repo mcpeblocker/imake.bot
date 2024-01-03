@@ -99,22 +99,20 @@ export default function Page(props: TriggerPageProps) {
               id: procedure,
             }}
             options={[{ label: trigger.procedure, id: trigger.procedure }]}
-            renderOption={(_, option) => (
-              <Stack direction="row" justifyContent="space-between" p={1}>
-                <Typography>{option.label}</Typography>
-                <Link
-                  component={NextLink}
-                  href={`/dashboard/chatbot/${props.params.chatbotId}/procedure/${trigger.procedure}`}
-                  underline="none"
-                >
-                  Go to procedure details →
-                </Link>
-              </Stack>
-            )}
+            onChange={(_, value) =>
+              setProcedure((value as { label: string; id: string })?.id)
+            }
           />
           <FormHelperText>
             The pattern to be detected of selected type to execute given
             procedure.
+            <Link
+              component={NextLink}
+              href={`/dashboard/chatbot/${props.params.chatbotId}/procedure/${procedure}`}
+              underline="none"
+            >
+              Go to chosen procedure details →
+            </Link>
           </FormHelperText>
         </FormControl>
         <FormControl>
