@@ -7,6 +7,10 @@
 ## Technical requirements
 - Initialize the react.js project within the previous project folder ✔
 - Have a structured way of presenting view ✔
-- Define components for chatbot, actions, procedures, triggers
+- Define components for 
+  - chatbot ✔
+  - triggers ✔
+  - procedures
+  - actions
 - Access the backend api by making requests
 - Connect the frontend components to backend routes

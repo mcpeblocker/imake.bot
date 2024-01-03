@@ -55,15 +55,19 @@ export function Trigger(props: TriggerProps) {
             background: "#F6F8FA",
           }}
         >
-          <Typography textColor="#81CBFA">{props.trigger.pattern}</Typography>
+          <Typography textColor="#81CBFA" title={props.trigger.pattern}>
+            {props.trigger.pattern.length < 30
+              ? props.trigger.pattern
+              : props.trigger.pattern.slice(0, 30) + "..."}
+          </Typography>
         </Box>
       </CardContent>
       {/* Link to procedure */}
       <CardOverflow variant="solid" color="primary">
-        <Tooltip title="Go to procedure" variant="solid" placement="left">
+          <Tooltip title="Go to trigger details" variant="solid" placement="left">
           <Link
             component={NextLink}
-            href={`/dashboard/chatbot/${props.trigger.chatbot}/procedure/${props.trigger.procedure}`}
+            href={`/dashboard/chatbot/${props.trigger.chatbot}/trigger/${props.trigger._id}`}
             underline="none"
             sx={{
               color: "white",
