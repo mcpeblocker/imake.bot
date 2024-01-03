@@ -1,5 +1,22 @@
-import { Breadcrumbs, Container, Typography, Link } from "@mui/joy";
+"use client";
+import {
+  Breadcrumbs,
+  Container,
+  Typography,
+  Link,
+  Divider,
+  Select,
+  Option,
+  Stack,
+  Input,
+  Button,
+  Autocomplete,
+  FormControl,
+  FormLabel,
+  FormHelperText,
+} from "@mui/joy";
 import NextLink from "next/link";
+import { useMemo, useState } from "react";
 
 interface TriggerPageProps {
   params: {
@@ -9,6 +26,26 @@ interface TriggerPageProps {
 }
 
 export default function Page(props: TriggerPageProps) {
+  const trigger = {
+    _id: "tr123",
+    type: "command",
+    pattern: "start",
+    procedure: "pr123",
+    chatbot: props.params.chatbotId,
+  };
+
+  const [type, setType] = useState(trigger.type);
+  const [pattern, setPattern] = useState(trigger.pattern);
+  const [procedure, setProcedure] = useState(trigger.procedure);
+
+  const isNotChanged = useMemo(
+    () =>
+      trigger.type === type &&
+      trigger.pattern === pattern &&
+      trigger.procedure === procedure,
+    [trigger, type, pattern, procedure]
+  );
+
   return (
     <Container>
       {/* General procedure info */}
@@ -24,7 +61,68 @@ export default function Page(props: TriggerPageProps) {
           Trigger {props.params.triggerId}
         </Typography>
       </Breadcrumbs>
-      {/* Procedure */}
+      <Divider />
+      <Stack gap={2} mt={2}>
+        {/* Type */}
+        <FormControl>
+          <FormLabel>Type:</FormLabel>
+          <Select
+            placeholder="Choose one"
+            defaultValue={type}
+            onChange={(e, value) => setType(value as string)}
+          >
+            <Option value="command">COMMAND</Option>
+            <Option value="text">TEXT</Option>
+          </Select>
+          <FormHelperText>
+            The type of a trigger corresponding to telegram update.
+          </FormHelperText>
+        </FormControl>
+        {/* Pattern */}
+        <FormControl>
+          <FormLabel>Pattern:</FormLabel>
+          <Input
+            defaultValue={pattern}
+            onChange={(e) => setPattern(e.target.value)}
+          />
+          <FormHelperText>
+            The pattern to be detected of selected type to execute given
+            procedure.
+          </FormHelperText>
+        </FormControl>
+        {/* Procedure */}
+        <FormControl>
+          <FormLabel>Procedure:</FormLabel>
+          <Autocomplete
+            defaultValue={{
+              label: procedure,
+              id: procedure,
+            }}
+            options={[{ label: trigger.procedure, id: trigger.procedure }]}
+            renderOption={(_, option) => (
+              <Stack direction="row" justifyContent="space-between" p={1}>
+                <Typography>{option.label}</Typography>
+                <Link
+                  component={NextLink}
+                  href={`/dashboard/chatbot/${props.params.chatbotId}/procedure/${trigger.procedure}`}
+                  underline="none"
+                >
+                  Go to procedure details →
+                </Link>
+              </Stack>
+            )}
+          />
+          <FormHelperText>
+            The pattern to be detected of selected type to execute given
+            procedure.
+          </FormHelperText>
+        </FormControl>
+        <FormControl>
+          <Button disabled={isNotChanged} color="success">
+            Save
+          </Button>
+        </FormControl>
+      </Stack>
     </Container>
   );
 }
