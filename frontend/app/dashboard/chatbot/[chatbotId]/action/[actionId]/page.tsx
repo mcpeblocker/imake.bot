@@ -31,6 +31,7 @@ export default function Page(props: ActionPageProps) {
       chat_id: 800123427,
       text: "Hello, how are you?",
     },
+    chatbot: props.params.chatbotId,
   };
 
   const [method, setMethod] = useState(action.method);
