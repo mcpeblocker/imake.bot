@@ -27,13 +27,13 @@ export function ChatBots() {
   return (
     <Stack>
       <Stack direction="row" justifyContent="space-between">
-        <Typography typography="h4">Procedures</Typography>
+        <Typography typography="h4">Chatbots</Typography>
         <Link
           component={NextLink}
           href={`/dashboard/chatbot/new`}
           underline="none"
         >
-          <Button>+ Add procedure</Button>
+          <Button>+ Add chatbot</Button>
         </Link>
       </Stack>
       <List>

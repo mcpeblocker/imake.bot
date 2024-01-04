@@ -1,14 +1,13 @@
 "use client";
+import TriggerPattern from "@/components/modules/trigger/TriggerPattern";
+import TriggerType from "@/components/modules/trigger/TriggerType";
 import {
   Breadcrumbs,
   Container,
   Typography,
   Link,
   Divider,
-  Select,
-  Option,
   Stack,
-  Input,
   Button,
   Autocomplete,
   FormControl,
@@ -64,32 +63,9 @@ export default function Page(props: TriggerPageProps) {
       <Divider />
       <Stack gap={2} mt={2}>
         {/* Type */}
-        <FormControl>
-          <FormLabel>Type:</FormLabel>
-          <Select
-            placeholder="Choose one"
-            defaultValue={type}
-            onChange={(e, value) => setType(value as string)}
-          >
-            <Option value="command">COMMAND</Option>
-            <Option value="text">TEXT</Option>
-          </Select>
-          <FormHelperText>
-            The type of a trigger corresponding to telegram update.
-          </FormHelperText>
-        </FormControl>
+        <TriggerType defaultType={type} onChange={setType} />
         {/* Pattern */}
-        <FormControl>
-          <FormLabel>Pattern:</FormLabel>
-          <Input
-            defaultValue={pattern}
-            onChange={(e) => setPattern(e.target.value)}
-          />
-          <FormHelperText>
-            The pattern to be detected of selected type to execute given
-            procedure.
-          </FormHelperText>
-        </FormControl>
+        <TriggerPattern defaultPattern={pattern} onChange={setPattern} />
         {/* Procedure */}
         <FormControl>
           <FormLabel>Procedure:</FormLabel>
@@ -104,8 +80,7 @@ export default function Page(props: TriggerPageProps) {
             }
           />
           <FormHelperText>
-            The pattern to be detected of selected type to execute given
-            procedure.
+            The procedure to be executed when a given pattern is detected.
             <Link
               component={NextLink}
               href={`/dashboard/chatbot/${props.params.chatbotId}/procedure/${procedure}`}

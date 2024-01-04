@@ -1,4 +1,6 @@
 "use client";
+import { ActionMethod } from "@/components/modules/action/ActionMethod";
+import { ActionParams } from "@/components/modules/action/ActionParams";
 import {
   Breadcrumbs,
   Container,
@@ -7,11 +9,7 @@ import {
   Stack,
   Divider,
   FormControl,
-  FormLabel,
-  Autocomplete,
-  FormHelperText,
   Button,
-  Textarea,
 } from "@mui/joy";
 import NextLink from "next/link";
 import { useMemo, useState } from "react";
@@ -58,30 +56,9 @@ export default function Page(props: ActionPageProps) {
       <Divider />
       <Stack gap={2} mt={2}>
         {/* Method */}
-        <FormControl>
-          <FormLabel>Method</FormLabel>
-          <Autocomplete
-            defaultValue={{ label: method, id: method }}
-            options={[{ label: "sendMessage", id: "sendMessage" }]}
-            onChange={(_, value) =>
-              setMethod((value as { label: string; id: string })?.id)
-            }
-          />
-          <FormHelperText>
-            The Telegram Bot API method to be used when action is executed.
-          </FormHelperText>
-        </FormControl>
+        <ActionMethod defaultMethod={method} onChange={setMethod} />
         {/* Params */}
-        <FormControl>
-          <Textarea
-            defaultValue={params}
-            onChange={(e) => setParams(e.target.value)}
-          />
-          <FormHelperText>
-            The params should be a json containing the relevant properties as
-            given in telegram bot api docs
-          </FormHelperText>
-        </FormControl>
+        <ActionParams defaultParams={params} onChange={setParams} />
         <FormControl>
           <Button disabled={isNotChanged} color="success">
             Save
