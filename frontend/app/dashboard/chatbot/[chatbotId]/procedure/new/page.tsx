@@ -1,7 +1,7 @@
-"use client";
-import { ProcedureSteps } from "@/components/modules/procedure/ProcedureSteps";
-import { Button, Container, FormControl, Stack, Typography } from "@mui/joy";
-import { useState } from "react";
+import { api } from "@/api/api";
+import { createProcedure } from "@/api/modules/procedure/createProcedure";
+import { ProcedureForm } from "@/components/modules/procedure/ProcedureForm";
+import { Container, Typography } from "@mui/joy";
 
 interface PageProps {
   params: {
@@ -9,29 +9,17 @@ interface PageProps {
   };
 }
 
-export default function Page(props: PageProps) {
-  const [steps, setSteps] = useState<string[]>([]);
-
-  const submitForm = () => {
-    const body = { chatbot: props.params.chatbotId, steps };
-    console.log(body);
-  };
+export default async function Page(props: PageProps) {
+  const actions = await api.action.getActionsByChatbot(props.params.chatbotId);
 
   return (
     <Container>
       <Typography typography="h2">Create new procedure</Typography>
-      <Stack gap={2} mt={2}>
-        <ProcedureSteps
-          chatbotId={props.params.chatbotId}
-          defaultSteps={steps}
-          onChange={setSteps}
-        />
-        <FormControl>
-          <Button color="success" onClick={submitForm}>
-            Create
-          </Button>
-        </FormControl>
-      </Stack>
+      <ProcedureForm
+        chatbotId={props.params.chatbotId}
+        actions={actions}
+        onSave={createProcedure}
+      />
     </Container>
   );
 }

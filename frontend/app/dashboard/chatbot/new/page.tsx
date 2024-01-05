@@ -1,4 +1,5 @@
 "use client";
+import { createChatbot } from "@/api/modules/chatbot/createChatbot";
 import {
   Button,
   Container,
@@ -15,9 +16,10 @@ export default function Page() {
   const [name, setName] = useState("");
   const [tg_token, setTg_token] = useState("");
 
-  const submitForm = () => {
-    const body = { name, tg_token };
-    console.log(body);
+  const submitForm = async () => {
+    console.log({ name, tg_token });
+    const result = await createChatbot({ name, tg_token });
+    console.log(result);
   };
 
   return (

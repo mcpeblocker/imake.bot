@@ -1,32 +1,14 @@
 import { Button, Grid, Link, Stack, Typography } from "@mui/joy";
 import { Action } from "./Action";
 import NextLink from "next/link";
+import { api } from "@/api/api";
 
 interface ActionsProps {
   chatbotId: string;
 }
 
-export function Actions(props: ActionsProps) {
-  const actions = [
-    {
-      _id: "act123",
-      method: "sendMessage",
-      params: {
-        chat_id: 800123427,
-        text: "Hello, how are you?",
-      },
-      chatbot: props.chatbotId,
-    },
-    {
-      _id: "act124",
-      method: "sendMessage",
-      params: {
-        chat_id: 800123427,
-        text: "I am planning to launch this product soon, I would greatly appreciate your help!",
-      },
-      chatbot: props.chatbotId,
-    },
-  ];
+export async function Actions(props: ActionsProps) {
+  const actions = await api.action.getActionsByChatbot(props.chatbotId);
 
   return (
     <Stack direction="column">

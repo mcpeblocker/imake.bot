@@ -1,26 +1,16 @@
 import { Button, Grid, Link, Stack, Typography } from "@mui/joy";
 import { Procedure } from "./Procedure";
 import NextLink from "next/link";
+import { api } from "@/api/api";
 
 interface ProcedureProps {
   chatbotId: string;
 }
 
-export function Procedures(props: ProcedureProps) {
-  const procedures = [
-    {
-      _id: "pr123",
-      name: "Send welcoming messages",
-      steps: [],
-      chatbot: props.chatbotId,
-    },
-    {
-      _id: "pr124",
-      name: "Say welcome!",
-      steps: [],
-      chatbot: props.chatbotId,
-    },
-  ];
+export async function Procedures(props: ProcedureProps) {
+  const procedures = await api.procedure.getProceduresByChatbot(
+    props.chatbotId
+  );
 
   return (
     <Stack direction="column">

@@ -1,5 +1,6 @@
 import {
   Autocomplete,
+  AutocompleteOption,
   Button,
   FormControl,
   FormLabel,
@@ -7,61 +8,48 @@ import {
   Stack,
   Typography,
 } from "@mui/joy";
-import { useState } from "react";
 import NextLink from "next/link";
+import { IAction } from "@/api/modules/action/interface";
 
 interface ProcedureStepsProps {
   chatbotId: string;
-  defaultSteps: string[];
+  actions: IAction[];
+  steps: string[];
   onChange: (steps: string[]) => void;
+  onAddStep: () => void;
+  onRemoveStep: (index: number) => void;
+  onStepChange: (index: number, step: string) => void;
 }
 
 export function ProcedureSteps(props: ProcedureStepsProps) {
-  const actions = [
-    "6592e49f12f9003fa2276e8d",
-    "6592e49f12f9003fa2276e8c",
-    "6592e49f12f9003fa2276e8b",
-  ];
+  const actionOptions = props.actions.map((item) => ({
+    label: item.method,
+    id: item._id,
+  }));
 
-  const [steps, setSteps] = useState<string[]>(props.defaultSteps);
-
-  const addEmptyStep = () => {
-    const newSteps = [...steps, ""];
-    setSteps(newSteps);
-    props.onChange(newSteps);
-  };
-
-  const removeStep = (index: number) => {
-    const newSteps = [...steps];
-    newSteps.splice(index, 1);
-    setSteps(newSteps);
-    props.onChange(newSteps);
-  };
-
-  const handleStepChange = (index: number, step: string) => {
-    const newSteps = [...steps];
-    newSteps.splice(index, 1, step);
-    setSteps(newSteps);
-    props.onChange(newSteps);
-  };
+  const getOption = (step: string) =>
+    actionOptions.find((item) => item.id === step);
 
   return (
     <Stack gap={2}>
       <FormLabel>Steps</FormLabel>
-      {steps.map((step, index) => (
+      {props.steps.map((step, index) => (
         <Stack key={index} direction="row" alignItems="center" gap={2}>
           <Typography>{index + 1}.</Typography>
           <FormControl sx={{ width: "100%" }}>
             <Autocomplete
               placeholder="Choose an action"
-              defaultValue={{ label: step, id: step }}
-              options={actions.map((item) => ({
-                label: item,
-                id: item,
-              }))}
+              value={getOption(step) || null}
+              options={actionOptions}
               onChange={(_, value) =>
-                handleStepChange(index, value?.id as string)
+                props.onStepChange(index, value?.id as string)
               }
+              isOptionEqualToValue={(option, value) => option.id === value.id}
+              renderOption={(props, option) => (
+                <AutocompleteOption {...props} key={option.id}>
+                  {option.label}
+                </AutocompleteOption>
+              )}
             />
           </FormControl>
           <Link
@@ -71,13 +59,13 @@ export function ProcedureSteps(props: ProcedureStepsProps) {
           >
             <Button>Details</Button>
           </Link>
-          <Button color="danger" onClick={() => removeStep(index)}>
+          <Button color="danger" onClick={() => props.onRemoveStep(index)}>
             Remove
           </Button>
         </Stack>
       ))}
       <FormControl>
-        <Button onClick={addEmptyStep}>+ Add step</Button>
+        <Button onClick={props.onAddStep}>+ Add step</Button>
       </FormControl>
     </Stack>
   );

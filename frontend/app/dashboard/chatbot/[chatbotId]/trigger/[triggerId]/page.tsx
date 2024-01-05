@@ -1,21 +1,9 @@
-"use client";
-import TriggerPattern from "@/components/modules/trigger/TriggerPattern";
-import TriggerType from "@/components/modules/trigger/TriggerType";
-import {
-  Breadcrumbs,
-  Container,
-  Typography,
-  Link,
-  Divider,
-  Stack,
-  Button,
-  Autocomplete,
-  FormControl,
-  FormLabel,
-  FormHelperText,
-} from "@mui/joy";
+import { api } from "@/api/api";
+import { editTriggerById } from "@/api/modules/trigger/editTriggerById";
+import { TriggerForm } from "@/components/modules/trigger/TriggerForm";
+import { TriggerInfo } from "@/components/modules/trigger/TriggerInfo";
+import { Breadcrumbs, Container, Typography, Link, Divider } from "@mui/joy";
 import NextLink from "next/link";
-import { useMemo, useState } from "react";
 
 interface TriggerPageProps {
   params: {
@@ -24,25 +12,10 @@ interface TriggerPageProps {
   };
 }
 
-export default function Page(props: TriggerPageProps) {
-  const trigger = {
-    _id: "tr123",
-    type: "command",
-    pattern: "start",
-    procedure: "pr123",
-    chatbot: props.params.chatbotId,
-  };
-
-  const [type, setType] = useState(trigger.type);
-  const [pattern, setPattern] = useState(trigger.pattern);
-  const [procedure, setProcedure] = useState(trigger.procedure);
-
-  const isNotChanged = useMemo(
-    () =>
-      trigger.type === type &&
-      trigger.pattern === pattern &&
-      trigger.procedure === procedure,
-    [trigger, type, pattern, procedure]
+export default async function Page(props: TriggerPageProps) {
+  const trigger = await api.triggger.getTriggerById(props.params.triggerId);
+  const procedures = await api.procedure.getProceduresByChatbot(
+    props.params.chatbotId
   );
 
   return (
@@ -56,46 +29,18 @@ export default function Page(props: TriggerPageProps) {
         >
           {props.params.chatbotId}
         </Link>
-        <Typography typography="h2">
-          Trigger {props.params.triggerId}
-        </Typography>
+        <Typography typography="h2">Trigger</Typography>
       </Breadcrumbs>
+      <div>
+        <TriggerInfo trigger={trigger} />
+      </div>
       <Divider />
-      <Stack gap={2} mt={2}>
-        {/* Type */}
-        <TriggerType defaultType={type} onChange={setType} />
-        {/* Pattern */}
-        <TriggerPattern defaultPattern={pattern} onChange={setPattern} />
-        {/* Procedure */}
-        <FormControl>
-          <FormLabel>Procedure:</FormLabel>
-          <Autocomplete
-            defaultValue={{
-              label: procedure,
-              id: procedure,
-            }}
-            options={[{ label: trigger.procedure, id: trigger.procedure }]}
-            onChange={(_, value) =>
-              setProcedure((value as { label: string; id: string })?.id)
-            }
-          />
-          <FormHelperText>
-            The procedure to be executed when a given pattern is detected.
-            <Link
-              component={NextLink}
-              href={`/dashboard/chatbot/${props.params.chatbotId}/procedure/${procedure}`}
-              underline="none"
-            >
-              Go to chosen procedure details →
-            </Link>
-          </FormHelperText>
-        </FormControl>
-        <FormControl>
-          <Button disabled={isNotChanged} color="success">
-            Save
-          </Button>
-        </FormControl>
-      </Stack>
+      <TriggerForm
+        trigger={trigger}
+        procedures={procedures}
+        chatbotId={props.params.chatbotId}
+        onSave={editTriggerById}
+      />
     </Container>
   );
 }

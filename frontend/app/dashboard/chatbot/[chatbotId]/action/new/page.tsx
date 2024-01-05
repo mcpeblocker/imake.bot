@@ -1,7 +1,8 @@
 "use client";
-import { ActionMethod } from "@/components/modules/action/ActionMethod";
-import { ActionParams } from "@/components/modules/action/ActionParams";
-import { Button, Container, FormControl, Stack, Typography } from "@mui/joy";
+import { createAction } from "@/api/modules/action/createAction";
+import { ActionForm } from "@/components/modules/action/ActionForm";
+import { Container, Typography } from "@mui/joy";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 interface PageProps {
@@ -14,27 +15,22 @@ export default function Page(props: PageProps) {
   const [method, setMethod] = useState("sendMessage");
   const [params, setParams] = useState("{}");
 
-  const submitForm = () => {
-    const body = {
+  const router = useRouter();
+  const submitForm = async () => {
+    const result = await createAction({
       method,
       params: JSON.parse(params),
       chatbot: props.params.chatbotId,
-    };
-    console.log(body);
+    });
+    router.push(
+      `/dashboard/chatbot/${props.params.chatbotId}/action/${result._id}`
+    );
   };
 
   return (
     <Container>
       <Typography typography="h2">Create new action</Typography>
-      <Stack gap={2} mt={2}>
-        <ActionMethod defaultMethod={method} onChange={setMethod} />
-        <ActionParams defaultParams={params} onChange={setParams} />
-        <FormControl>
-          <Button color="success" onClick={submitForm}>
-            Create
-          </Button>
-        </FormControl>
-      </Stack>
+      <ActionForm onSave={createAction} chatbotId={props.params.chatbotId} />
     </Container>
   );
 }

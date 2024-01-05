@@ -1,42 +1,14 @@
 import { Button, Grid, Link, Stack, Typography } from "@mui/joy";
 import { Trigger } from "./Trigger";
 import NextLink from "next/link";
+import { api } from "@/api/api";
 
 interface TriggersProps {
   chatbotId: string;
 }
 
-export function Triggers(props: TriggersProps) {
-  const triggers = [
-    {
-      _id: "tr123",
-      type: "command",
-      pattern: "start",
-      procedure: "pr123",
-      chatbot: props.chatbotId,
-    },
-    {
-      _id: "tr124",
-      type: "command",
-      pattern: "help",
-      procedure: "pr124",
-      chatbot: props.chatbotId,
-    },
-    {
-      _id: "tr125",
-      type: "text",
-      pattern: "Hello",
-      procedure: "pr125",
-      chatbot: props.chatbotId,
-    },
-    {
-      _id: "tr126",
-      type: "text",
-      pattern: "Thanks",
-      procedure: "pr125",
-      chatbot: props.chatbotId,
-    },
-  ];
+export async function Triggers(props: TriggersProps) {
+  const triggers = await api.triggger.getTriggersByChatbot(props.chatbotId);
 
   return (
     <Stack direction="column">

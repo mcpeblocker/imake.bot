@@ -4,8 +4,9 @@ import { Container } from "@mui/joy";
 export default function Page() {
   return (
     <Container component="main">
-      {/* ChatBots list */}
-      <ChatBots />
+      <div>
+        <ChatBots />
+      </div>
     </Container>
   );
 }

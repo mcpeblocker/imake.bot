@@ -1,5 +1,4 @@
-"use client";
-
+import { api } from "@/api/api";
 import {
   Button,
   Link,
@@ -12,17 +11,8 @@ import {
 } from "@mui/joy";
 import NextLink from "next/link";
 
-export function ChatBots() {
-  const chatbots = [
-    {
-      name: "First bot",
-      _id: "a1",
-    },
-    {
-      name: "Second bot",
-      _id: "a2",
-    },
-  ];
+export async function ChatBots() {
+  const chatbots = await api.chatbot.getChatbots();
 
   return (
     <Stack>
