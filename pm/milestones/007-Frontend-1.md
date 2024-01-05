@@ -12,5 +12,5 @@
   - triggers ✔
   - procedures ✔
   - actions ✔
-- Access the backend api by making requests
-- Connect the frontend components to backend routes
+- Access the backend api by making requests ✔
+- Connect the frontend components to backend routes ✔
