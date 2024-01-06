@@ -21,10 +21,13 @@ interface ProcedureFormProps {
 }
 
 export function ProcedureForm(props: ProcedureFormProps) {
-  const defaultProcedure = {
-    name: props.procedure?.name || "",
-    steps: props.procedure?.steps || [],
-  };
+  const defaultProcedure = useMemo(
+    () => ({
+      name: props.procedure?.name || "",
+      steps: props.procedure?.steps || [],
+    }),
+    [props]
+  );
 
   const router = useRouter();
   const [name, setName] = useState(defaultProcedure.name);

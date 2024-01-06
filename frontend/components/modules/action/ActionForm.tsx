@@ -16,10 +16,16 @@ interface ActionFormProps {
 }
 
 export function ActionForm(props: ActionFormProps) {
-  const defaultAction = {
-    method: props.action?.method || "sendMessage",
-    params: props.action?.params || { chat_id: 123456789, text: "Hello world" },
-  };
+  const defaultAction = useMemo(
+    () => ({
+      method: props.action?.method || "sendMessage",
+      params: props.action?.params || {
+        chat_id: 123456789,
+        text: "Hello world",
+      },
+    }),
+    [props]
+  );
 
   const router = useRouter();
   const [method, setMethod] = useState(defaultAction.method);

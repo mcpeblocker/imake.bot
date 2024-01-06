@@ -21,11 +21,14 @@ interface TriggerFormProps {
 }
 
 export function TriggerForm(props: TriggerFormProps) {
-  const defaultTrigger = {
-    type: props.trigger?.type || "",
-    pattern: props.trigger?.pattern || "",
-    procedure: props.trigger?.procedure || "",
-  };
+  const defaultTrigger = useMemo(
+    () => ({
+      type: props.trigger?.type || "",
+      pattern: props.trigger?.pattern || "",
+      procedure: props.trigger?.procedure || "",
+    }),
+    [props]
+  );
 
   const router = useRouter();
   const [type, setType] = useState<string>(defaultTrigger.type);
