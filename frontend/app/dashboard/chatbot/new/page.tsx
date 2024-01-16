@@ -10,16 +10,22 @@ import {
   Stack,
   Typography,
 } from "@mui/joy";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { toast } from "react-toastify";
 
 export default function Page() {
+  const router = useRouter();
   const [name, setName] = useState("");
   const [tg_token, setTg_token] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const submitForm = async () => {
-    console.log({ name, tg_token });
+    setIsLoading(true);
     const result = await createChatbot({ name, tg_token });
-    console.log(result);
+    setIsLoading(false);
+    router.push(`/dashboard/chatbot/${result._id}`);
+    toast.success("Chatbot has been created!");
   };
 
   return (
@@ -53,7 +59,7 @@ export default function Page() {
           </FormHelperText>
         </FormControl>
         <FormControl>
-          <Button color="success" onClick={submitForm}>
+          <Button color="success" onClick={submitForm} loading={isLoading}>
             Create
           </Button>
         </FormControl>

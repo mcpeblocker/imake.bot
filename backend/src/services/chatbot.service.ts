@@ -22,7 +22,11 @@ class ChatBotService {
 
   public async launchChatBot(token: string) {
     const chatbot = await this.getChatBot(token);
-    chatbot.launch();
+    if (chatbot.isLaunched) {
+      throw new Error("Failed to launch another instance of the same bot.");
+    } else {
+      chatbot.launch();
+    }
   }
 
   public async terminateChatBot(token: string) {

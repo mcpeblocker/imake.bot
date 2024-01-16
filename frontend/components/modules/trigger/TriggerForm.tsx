@@ -8,6 +8,7 @@ import TriggerPattern from "./TriggerPattern";
 import TriggerProcedure from "./TriggerProcedure";
 import { IProcedure } from "@/api/modules/procedure/interface";
 import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 
 interface TriggerFormProps {
   trigger?: ITrigger;
@@ -34,6 +35,7 @@ export function TriggerForm(props: TriggerFormProps) {
   const [type, setType] = useState<string>(defaultTrigger.type);
   const [pattern, setPattern] = useState<string>(defaultTrigger.pattern);
   const [procedure, setProcedure] = useState<string>(defaultTrigger.procedure);
+  const [isLoading, setIsLoading] = useState(false);
 
   const isNotChanged = useMemo(
     () =>
@@ -44,6 +46,7 @@ export function TriggerForm(props: TriggerFormProps) {
   );
 
   const submitForm = async () => {
+    setIsLoading(true);
     const result = await props.onSave({
       type,
       pattern,
@@ -51,6 +54,8 @@ export function TriggerForm(props: TriggerFormProps) {
       chatbot: props.chatbotId,
       triggerId: props.trigger?._id || "",
     });
+    setIsLoading(false);
+    toast.success("Trigger has been saved!");
     if (props.trigger?._id == undefined) {
       router.push(
         `/dashboard/chatbot/${props.chatbotId}/trigger/${result._id}`
@@ -75,7 +80,12 @@ export function TriggerForm(props: TriggerFormProps) {
         chatbotId={props.chatbotId}
       />
       <FormControl>
-        <Button disabled={isNotChanged} color="success" onClick={submitForm}>
+        <Button
+          disabled={isNotChanged}
+          color="success"
+          onClick={submitForm}
+          loading={isLoading}
+        >
           Save
         </Button>
       </FormControl>

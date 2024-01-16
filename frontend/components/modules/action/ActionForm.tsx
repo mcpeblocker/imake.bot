@@ -6,6 +6,7 @@ import { useMemo, useState } from "react";
 import { ActionMethod } from "./ActionMethod";
 import { ActionParams } from "./ActionParams";
 import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 
 interface ActionFormProps {
   action?: IAction;
@@ -30,6 +31,7 @@ export function ActionForm(props: ActionFormProps) {
   const router = useRouter();
   const [method, setMethod] = useState(defaultAction.method);
   const [params, setParams] = useState(JSON.stringify(defaultAction.params));
+  const [isLoading, setIsLoading] = useState(false);
 
   const isNotChanged = useMemo(
     () =>
@@ -39,12 +41,15 @@ export function ActionForm(props: ActionFormProps) {
   );
 
   const submitForm = async () => {
+    setIsLoading(true);
     const result = await props.onSave({
       method,
       params: JSON.parse(params),
       chatbot: props.chatbotId,
       actionId: props.action?._id || "",
     });
+    setIsLoading(false);
+    toast.success("Action has been saved!");
     if (props.action?._id === undefined) {
       router.push(`/dashboard/chatbot/${props.chatbotId}/action/${result._id}`);
     }
@@ -60,7 +65,12 @@ export function ActionForm(props: ActionFormProps) {
         onChange={setParams}
       />
       <FormControl>
-        <Button disabled={isNotChanged} color="success" onClick={submitForm}>
+        <Button
+          disabled={isNotChanged}
+          color="success"
+          onClick={submitForm}
+          loading={isLoading}
+        >
           Save
         </Button>
       </FormControl>

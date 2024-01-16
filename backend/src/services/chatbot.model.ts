@@ -10,11 +10,13 @@ export class ChatBotModel {
   private readonly bot: Bot;
   public readonly api: Api;
   public botInfo!: ITgBotInfo;
+  public isLaunched: boolean;
 
   constructor(token: string) {
     this.token = token;
     this.bot = new Bot(this.token);
     this.api = this.bot.api;
+    this.isLaunched = false;
   }
 
   public async init() {
@@ -111,10 +113,12 @@ export class ChatBotModel {
 
   public launch() {
     this.registerMiddlewares();
+    this.isLaunched = true;
     this.bot.start();
   }
 
   public terminate() {
+    this.isLaunched = false;
     this.bot.stop();
   }
 }

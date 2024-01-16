@@ -7,6 +7,7 @@ import { ProcedureSteps } from "./ProcedureSteps";
 import { IAction } from "@/api/modules/action/interface";
 import ProcedureName from "./ProcedureName";
 import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 
 interface ProcedureFormProps {
   chatbotId: string;
@@ -32,6 +33,7 @@ export function ProcedureForm(props: ProcedureFormProps) {
   const router = useRouter();
   const [name, setName] = useState(defaultProcedure.name);
   const [steps, setSteps] = useState<string[]>(defaultProcedure.steps);
+  const [isLoading, setIsLoading] = useState(false);
 
   const isNotChanged = useMemo(
     () =>
@@ -58,12 +60,15 @@ export function ProcedureForm(props: ProcedureFormProps) {
   };
 
   const submitForm = async () => {
+    setIsLoading(true);
     const result = await props.onSave({
       name,
       steps,
       chatbot: props.chatbotId,
       procedureId: props.procedure?._id || "",
     });
+    setIsLoading(false);
+    toast.success("Procedure has been saved!");
     if (props.procedure?._id === undefined) {
       router.push(result._id);
     }
@@ -82,7 +87,12 @@ export function ProcedureForm(props: ProcedureFormProps) {
         onStepChange={handleStepChange}
       />
       <FormControl>
-        <Button disabled={isNotChanged} color="success" onClick={submitForm}>
+        <Button
+          disabled={isNotChanged}
+          color="success"
+          onClick={submitForm}
+          loading={isLoading}
+        >
           Save
         </Button>
       </FormControl>

@@ -1,6 +1,7 @@
 import { Schema, model } from "mongoose";
 import { IChatBot } from "./interfaces";
 import { chatBotService } from "../../services/chatbot.service";
+import { logger } from "../../common/logger";
 
 const chatBotSchema = new Schema<IChatBot>({
   name: {
@@ -41,7 +42,15 @@ chatBotSchema.pre("save", async function (next) {
 });
 
 chatBotSchema.post("save", async function (res, next) {
-  await chatBotService.launchChatBot(res.tg_token);
+  try {
+    await chatBotService.launchChatBot(res.tg_token);
+    next();
+  } catch (error: any) {
+    logger.error("ChatBot service error received.", {
+      message: error.message,
+      error,
+    });
+  }
 });
 
 chatBotSchema.post("findOneAndDelete", async function (res, next) {
