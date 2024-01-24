@@ -36,13 +36,22 @@ export async function ChatBots() {
                 width="100%"
               >
                 <ListItemContent>{chatbot.name}</ListItemContent>
-                <Link
-                  href={`/dashboard/chatbot/${chatbot._id}`}
-                  component={NextLink}
-                  underline="none"
-                >
-                  <Typography>Manage →</Typography>
-                </Link>
+                <Stack direction="row" gap={2}>
+                  <Link
+                    href={`/dashboard/chatbot/${chatbot._id}/builder`}
+                    component={NextLink}
+                    underline="none"
+                  >
+                    <Button variant="outlined">Builder</Button>
+                  </Link>
+                  <Link
+                    href={`/dashboard/chatbot/${chatbot._id}`}
+                    component={NextLink}
+                    underline="none"
+                  >
+                    <Button variant="plain">Manage →</Button>
+                  </Link>
+                </Stack>
               </Stack>
             </ListItemButton>
           </ListItem>
