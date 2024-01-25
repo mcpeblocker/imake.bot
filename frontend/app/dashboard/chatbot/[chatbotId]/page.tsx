@@ -4,6 +4,7 @@ import { Triggers } from "@/components/modules/trigger/Triggers";
 import { Procedures } from "@/components/modules/procedure/Procedures";
 import { Actions } from "@/components/modules/action/Actions";
 import { ChatbotInfo } from "@/components/modules/chatbot/ChatbotInfo";
+import { api } from "@/api/api";
 
 interface PageProps {
   params: {
@@ -11,12 +12,13 @@ interface PageProps {
   };
 }
 
-export default function Page({ params }: PageProps) {
+export default async function Page({ params }: PageProps) {
+  const chatbot = await api.chatbot.getChatbotById(params.chatbotId);
   return (
     <Container>
       <div>
         {/* General ChatBot Info */}
-        <ChatbotInfo chatbotId={params.chatbotId} />
+        <ChatbotInfo chatbot={chatbot} />
         {/* Chatbot relations */}
         <Tabs
           defaultValue={0}

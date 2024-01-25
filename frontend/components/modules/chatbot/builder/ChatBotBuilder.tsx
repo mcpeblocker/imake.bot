@@ -1,27 +1,48 @@
-import { Box, Stack } from "@mui/joy";
+"use client";
+
+import { Box, Divider, Grid, Stack } from "@mui/joy";
 import { EntityList } from "./EntityList";
 import { Whiteboard } from "./Whiteboard";
 import { EntityInfo } from "./EntityInfo";
+import { ChatbotInfo } from "../ChatbotInfo";
+import { IChatBot } from "@/api/modules/chatbot/interface";
+import { ITrigger } from "@/api/modules/trigger/interface";
+import { IProcedure } from "@/api/modules/procedure/interface";
+import { IAction } from "@/api/modules/action/interface";
+import { useState } from "react";
 
 interface ChatBotBuilderProps {
-  chatbotId: string;
+  chatbot: IChatBot;
+  triggers: ITrigger[];
+  procedures: IProcedure[];
+  actions: IAction[];
 }
 
 export function ChatBotBuilder(props: ChatBotBuilderProps) {
+  const [selectedEntity, setSelectedEntity] = useState<
+    ITrigger | IProcedure | IAction | null
+  >(null);
+
   return (
-    <Stack direction="row" alignItems="stretch" justifyContent="space-between">
-      {/* Left: Entity list */}
-      <Box sx={{ flexGrow: 1 }}>
-        <EntityList />
-      </Box>
-      {/* Center: Whiteboard */}
-      <Box sx={{ flexGrow: 5 }}>
+    <Grid container alignItems="stretch">
+      <Grid xs={2}>
+        {/* Left: Entity list */}
+        <EntityList
+          triggers={props.triggers}
+          procedures={props.procedures}
+          actions={props.actions}
+          selectedEntity={selectedEntity}
+          selectEntity={setSelectedEntity}
+        />
+      </Grid>
+      <Grid xs={8}>
+        {/* Center: Whiteboard */}
         <Whiteboard />
-      </Box>
-      {/* Right: Entity info */}
-      <Box sx={{ flexGrow: 1 }}>
-        <EntityInfo />
-      </Box>
-    </Stack>
+      </Grid>
+      <Grid xs={2}>
+        {/* Right: Entity info */}
+        <EntityInfo chatbot={props.chatbot} selectedEntity={selectedEntity} />
+      </Grid>
+    </Grid>
   );
 }

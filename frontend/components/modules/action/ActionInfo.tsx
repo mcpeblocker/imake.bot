@@ -5,7 +5,7 @@ interface ActionInfoProps {
   action: IAction;
 }
 
-export async function ActionInfo(props: ActionInfoProps) {
+export function ActionInfo(props: ActionInfoProps) {
   return (
     <Stack>
       <Typography typography="h2">{props.action.method}</Typography>

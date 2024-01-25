@@ -5,7 +5,7 @@ interface ProcedureInfoProps {
   procedure: IProcedure;
 }
 
-export async function ProcedureInfo(props: ProcedureInfoProps) {
+export function ProcedureInfo(props: ProcedureInfoProps) {
   return (
     <Stack>
       <Typography typography="h2">{props.procedure.name}</Typography>

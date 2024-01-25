@@ -5,7 +5,7 @@ interface TriggerInfoProps {
   trigger: ITrigger;
 }
 
-export async function TriggerInfo(props: TriggerInfoProps) {
+export function TriggerInfo(props: TriggerInfoProps) {
   return (
     <Stack>
       <Typography typography="h2">

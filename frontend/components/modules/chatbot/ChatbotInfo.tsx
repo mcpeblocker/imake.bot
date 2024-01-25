@@ -1,17 +1,15 @@
-import { api } from "@/api/api";
+import { IChatBot } from "@/api/modules/chatbot/interface";
 import { Stack, Typography } from "@mui/joy";
 
 interface ChatbotInfoProps {
-  chatbotId: string;
+  chatbot: IChatBot;
 }
 
-export async function ChatbotInfo(props: ChatbotInfoProps) {
-  const chatbot = await api.chatbot.getChatbotById(props.chatbotId);
-
+export function ChatbotInfo(props: ChatbotInfoProps) {
   return (
     <Stack>
-      <Typography typography="h2">{chatbot.name}</Typography>
-      <Typography typography="p">{chatbot._id}</Typography>
+      <Typography typography="h2">{props.chatbot.name}</Typography>
+      <Typography typography="p">{props.chatbot._id}</Typography>
     </Stack>
   );
 }
