@@ -7,6 +7,11 @@ import { ChatbotInfo } from "../ChatbotInfo";
 import { TriggerInfo } from "../../trigger/TriggerInfo";
 import { ProcedureInfo } from "../../procedure/ProcedureInfo";
 import { ActionInfo } from "../../action/ActionInfo";
+import {
+  instanceOfAction,
+  instanceOfProcedure,
+  instanceOfTrigger,
+} from "./entity-utils";
 
 interface EntityInfoProps {
   chatbot: IChatBot;
@@ -42,14 +47,4 @@ export function EntityInfo(props: EntityInfoProps) {
       </Box>
     );
   }
-}
-
-function instanceOfTrigger(object: Object): object is ITrigger {
-  return "pattern" in object;
-}
-function instanceOfProcedure(object: Object): object is IProcedure {
-  return "name" in object;
-}
-function instanceOfAction(object: Object): object is IAction {
-  return "method" in object;
 }

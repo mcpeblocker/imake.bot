@@ -37,7 +37,11 @@ export function ChatBotBuilder(props: ChatBotBuilderProps) {
       </Grid>
       <Grid xs={8}>
         {/* Center: Whiteboard */}
-        <Whiteboard />
+        <Whiteboard
+          triggers={props.triggers}
+          procedures={props.procedures}
+          actions={props.actions}
+        />
       </Grid>
       <Grid xs={2}>
         {/* Right: Entity info */}
