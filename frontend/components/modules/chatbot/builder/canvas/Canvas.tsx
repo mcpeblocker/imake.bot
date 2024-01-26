@@ -5,19 +5,8 @@ interface CanvasProps {
   height: number;
 }
 
-const canvasStyle = {
-  border: "1px solid black",
-};
-
 export const Canvas = (props: CanvasProps) => {
-  useFabricCanvas("whiteboard");
+  useFabricCanvas("whiteboard", props.width, props.height);
 
-  return (
-    <canvas
-      id="whiteboard"
-      width={props.width}
-      height={props.height}
-      style={canvasStyle}
-    />
-  );
+  return <canvas id="whiteboard" />;
 };
