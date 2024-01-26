@@ -7,7 +7,7 @@
 ## Technical requirements
 
 - Implement canvas in Whiteboard component ✔
-- Define basic blocks:
-  - Trigger (as input block)
-  - Action (as statement block)
-  - Procedure (as group of statetements block)
+- Define basic blocks: ✔
+  - Trigger (as input block) ✔
+  - Action (as statement block) ✔
+  - Procedure (as group of statetements block) ✔

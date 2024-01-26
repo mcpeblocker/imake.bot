@@ -18,6 +18,7 @@ export const Whiteboard = (props: WhiteboardProps) => {
   const [height, setHeight] = useState<number>(150);
 
   useEffect(() => {
+    // Apply the width and height of the box to the canvas
     const box = boxRef.current;
     if (box) {
       const { width, height } = box.getBoundingClientRect();
@@ -28,7 +29,13 @@ export const Whiteboard = (props: WhiteboardProps) => {
 
   return (
     <Box sx={{ minHeight: 500 }} ref={boxRef}>
-      <Canvas width={width} height={height} />
+      <Canvas
+        width={width}
+        height={height}
+        triggers={props.triggers}
+        procedures={props.procedures}
+        actions={props.actions}
+      />
     </Box>
   );
 };
