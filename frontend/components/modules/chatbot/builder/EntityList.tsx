@@ -5,11 +5,10 @@ import { ActionsList } from "./entitylists/action/ActionsList";
 import { ITrigger } from "@/api/modules/trigger/interface";
 import { IProcedure } from "@/api/modules/procedure/interface";
 import { IAction } from "@/api/modules/action/interface";
+import { EntityType, IEntity } from "@/api/modules/interface";
 
 interface EntityListProps {
-  triggers: ITrigger[];
-  procedures: IProcedure[];
-  actions: IAction[];
+  entities: IEntity[];
   selectedEntity: ITrigger | IProcedure | IAction | null;
   selectEntity: (entity: ITrigger | IProcedure | IAction | null) => void;
 }
@@ -28,17 +27,29 @@ export function EntityList(props: EntityListProps) {
   return (
     <Stack direction="column">
       <TriggersList
-        triggers={props.triggers}
+        triggers={
+          props.entities.filter(
+            (entity) => entity.entityType === EntityType.TRIGGER
+          ) as ITrigger[]
+        }
         selectedEntity={props.selectedEntity}
         selectTrigger={selectTrigger}
       />
       <ProceduresList
-        procedures={props.procedures}
+        procedures={
+          props.entities.filter(
+            (entity) => entity.entityType === EntityType.PROCEDURE
+          ) as IProcedure[]
+        }
         selectedEntity={props.selectedEntity}
         selectProcedure={selectProcedure}
       />
       <ActionsList
-        actions={props.actions}
+        actions={
+          props.entities.filter(
+            (entity) => entity.entityType === EntityType.ACTION
+          ) as IAction[]
+        }
         selectedEntity={props.selectedEntity}
         selectAction={selectAction}
       />

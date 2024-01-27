@@ -1,4 +1,5 @@
 import { api } from "@/api/api";
+import { EntityType, IEntity } from "@/api/modules/interface";
 import { ChatBotBuilder } from "@/components/modules/chatbot/builder/ChatBotBuilder";
 import { Box } from "@mui/joy";
 
@@ -15,15 +16,21 @@ export default async function Page({ params }: PageProps) {
     params.chatbotId
   );
   const actions = await api.action.getActionsByChatbot(params.chatbotId);
+  const entities: IEntity[] = [
+    ...triggers.map((trigger) => ({
+      ...trigger,
+      entityType: EntityType.TRIGGER,
+    })),
+    ...procedures.map((procedure) => ({
+      ...procedure,
+      entityType: EntityType.PROCEDURE,
+    })),
+    ...actions.map((action) => ({ ...action, entityType: EntityType.ACTION })),
+  ];
 
   return (
     <Box component="main" p={2}>
-      <ChatBotBuilder
-        chatbot={chatbot}
-        triggers={triggers}
-        procedures={procedures}
-        actions={actions}
-      />
+      <ChatBotBuilder chatbot={chatbot} entities={entities} />
     </Box>
   );
 }

@@ -7,15 +7,14 @@ export const getActionDisplay = (action: IAction) => {
   const rect = new fabric.Rect({
     width: 100,
     height: 20,
-    fill: "#ffffff",
-    stroke: "#666666",
+    fill: "#C0E9FF",
+    stroke: "#347CD4",
     strokeWidth: 1,
     left,
     top,
     originX: "center",
     originY: "center",
   });
-
   const text = new fabric.Text(action.method, {
     fontSize: 16,
     left,
@@ -23,6 +22,13 @@ export const getActionDisplay = (action: IAction) => {
     originX: "center",
     originY: "center",
   });
-  const group = new fabric.Group([rect, text], { left, top });
+  const group = new fabric.Group([rect, text], {
+    left,
+    top,
+    hasControls: false,
+    hasBorders: false,
+    hoverCursor: "pointer",
+    data: action,
+  });
   return group;
 };
