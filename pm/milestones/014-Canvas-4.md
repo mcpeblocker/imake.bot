@@ -7,4 +7,4 @@
 ## Technical requirements
 
 - Implement basic line/curve to connect two entities
-- Properyl structure the usage of inter-entity connections
+- Properly structure the usage of inter-entity connections
