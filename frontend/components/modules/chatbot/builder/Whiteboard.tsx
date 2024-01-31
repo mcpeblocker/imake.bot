@@ -1,8 +1,8 @@
 import { EntityType, IEntity } from "@/api/modules/interface";
 import { Box } from "@mui/joy";
-import { ActionDisplay } from "./displays/Action.display";
-import { TriggerDisplay } from "./displays/Trigger.display";
-import { ProcedureDisplay } from "./displays/Procedure.display";
+import { ActionDisplay } from "./whiteboard/displays/Action.display";
+import { TriggerDisplay } from "./whiteboard/displays/Trigger.display";
+import { ProcedureDisplay } from "./whiteboard/displays/Procedure.display";
 
 interface WhiteboardProps {
   entities: IEntity[];
