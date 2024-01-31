@@ -1,53 +1,76 @@
-import { Box } from "@mui/joy";
-import { Canvas } from "./whiteboard/Canvas";
 import { EntityType, IEntity } from "@/api/modules/interface";
-import { TriggerBlock } from "./whiteboard/blocks/TriggerBlock";
-import { ITrigger } from "@/api/modules/trigger/interface";
-import { ProcedureBlock } from "./whiteboard/blocks/ProcedureBlock";
-import { IProcedure } from "@/api/modules/procedure/interface";
-import { ActionBlock } from "./whiteboard/blocks/ActionBlock";
-import { IAction } from "@/api/modules/action/interface";
-import React, { useRef } from "react";
-import { fabric } from "fabric";
+import { Box } from "@mui/joy";
+import { ActionDisplay } from "./displays/Action.display";
+import { TriggerDisplay } from "./displays/Trigger.display";
+import { ProcedureDisplay } from "./displays/Procedure.display";
 
 interface WhiteboardProps {
   entities: IEntity[];
+  selectedEntity: IEntity | null;
+  onSelectEntity: (entity: IEntity | null) => void;
 }
 
 export const Whiteboard = (props: WhiteboardProps) => {
-  const canvasRef = useRef<fabric.Canvas | null>(null);
-
   return (
-    <Box id="canvas-container" sx={{ minHeight: 500 }}>
-      <Canvas canvasRef={canvasRef} />
-      {props.entities.map((entity, index) => {
-        switch (entity.entityType) {
-          case EntityType.TRIGGER:
-            return (
-              <TriggerBlock
-                key={index}
-                trigger={entity as ITrigger}
-                canvasRef={canvasRef}
-              />
-            );
-          case EntityType.PROCEDURE:
-            return (
-              <ProcedureBlock
-                key={index}
-                procedure={entity as IProcedure}
-                canvasRef={canvasRef}
-              />
-            );
-          case EntityType.ACTION:
-            return (
-              <ActionBlock
-                key={index}
-                action={entity as IAction}
-                canvasRef={canvasRef}
-              />
-            );
-        }
-      })}
+    <Box
+      sx={{
+        backgroundColor: "#f2f2f2",
+        width: "100%",
+        position: "relative",
+      }}
+    >
+      <svg
+        width="100%"
+        style={{
+          aspectRatio: 2,
+        }}
+      >
+        {props.entities.map((entity, index) => {
+          const isSelected = props.selectedEntity?._id === entity._id;
+          const onSelected = () => {
+            if (isSelected === false) {
+              props.onSelectEntity(entity);
+            }
+          };
+          const onDeselected = () => {
+            if (isSelected) {
+              props.onSelectEntity(null);
+            }
+          };
+          switch (entity.entityType) {
+            case EntityType.TRIGGER:
+              return (
+                <TriggerDisplay
+                  key={index}
+                  trigger={entity}
+                  isSelected={isSelected}
+                  onSelect={onSelected}
+                  onDeselect={onDeselected}
+                />
+              );
+            case EntityType.PROCEDURE:
+              return (
+                <ProcedureDisplay
+                  key={index}
+                  procedure={entity}
+                  isSelected={isSelected}
+                  onSelect={onSelected}
+                  onDeselect={onDeselected}
+                />
+              );
+            case EntityType.ACTION:
+              return (
+                <ActionDisplay
+                  key={index}
+                  action={entity}
+                  isSelected={isSelected}
+                  onSelect={onSelected}
+                  onDeselect={onDeselected}
+                />
+              );
+          }
+        })}
+      </svg>
     </Box>
   );
 };

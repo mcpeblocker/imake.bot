@@ -9,19 +9,25 @@ import { EntityType, IEntity } from "@/api/modules/interface";
 
 interface EntityListProps {
   entities: IEntity[];
-  selectedEntity: ITrigger | IProcedure | IAction | null;
-  selectEntity: (entity: ITrigger | IProcedure | IAction | null) => void;
+  selectedEntity: IEntity | null;
+  selectEntity: (entity: IEntity | null) => void;
 }
 
 export function EntityList(props: EntityListProps) {
   const selectTrigger = (trigger: ITrigger) => {
-    props.selectEntity(props.selectedEntity === trigger ? null : trigger);
+    props.selectEntity(
+      props.selectedEntity === trigger ? null : (trigger as IEntity)
+    );
   };
   const selectProcedure = (procedure: IProcedure) => {
-    props.selectEntity(props.selectedEntity === procedure ? null : procedure);
+    props.selectEntity(
+      props.selectedEntity === procedure ? null : (procedure as IEntity)
+    );
   };
   const selectAction = (action: IAction) => {
-    props.selectEntity(props.selectedEntity === action ? null : action);
+    props.selectEntity(
+      props.selectedEntity === action ? null : (action as IEntity)
+    );
   };
 
   return (

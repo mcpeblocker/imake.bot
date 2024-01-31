@@ -22,7 +22,7 @@ export function ActionsList(props: ActionsListProps) {
               <ActionListItem
                 key={action._id}
                 action={action}
-                isSelected={action === props.selectedEntity}
+                isSelected={action._id === props.selectedEntity?._id}
                 onSelect={() => props.selectAction(action)}
               />
             ))}

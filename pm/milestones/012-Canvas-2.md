@@ -1,4 +1,4 @@
-# Canvas-2
+# Canvas-2 - CANCELLED
 
 ## Goals
 

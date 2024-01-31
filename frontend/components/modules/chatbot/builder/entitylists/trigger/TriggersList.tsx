@@ -22,7 +22,7 @@ export function TriggersList(props: TriggersListProps) {
               <TriggerListItem
                 key={trigger._id}
                 trigger={trigger}
-                isSelected={trigger === props.selectedEntity}
+                isSelected={trigger._id === props.selectedEntity?._id}
                 onSelect={() => props.selectTrigger(trigger)}
               />
             ))}

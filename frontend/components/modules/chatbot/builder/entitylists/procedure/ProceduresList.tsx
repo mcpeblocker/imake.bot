@@ -22,7 +22,7 @@ export function ProceduresList(props: ProceduresListProps) {
               <ProcedureListItem
                 key={procedure._id}
                 procedure={procedure}
-                isSelected={procedure === props.selectedEntity}
+                isSelected={procedure._id === props.selectedEntity?._id}
                 onSelect={() => props.selectProcedure(procedure)}
               />
             ))}

@@ -11,3 +11,13 @@
     --background-end-rgb: 0, 0, 0;
   }
 }
+
+.draggable:hover {
+  cursor: grab;
+}
+
+svg text {
+  text-anchor: middle;
+  dominant-baseline: middle;
+  font-size: 14px;
+}
